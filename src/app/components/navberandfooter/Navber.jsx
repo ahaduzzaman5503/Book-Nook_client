@@ -34,25 +34,25 @@ const Navber = () => {
               tabIndex={-1}
               className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow"
             >
-            <li>
-              <Link href="/">Home</Link>
-            </li>
-            <li>
-              <Link href="all-books">All Books</Link>
-            </li>
-            <li>
-              <Link href="/add-book">Add Book</Link>
-            </li>
-            <li>
-              <Link href="my-books">My Books</Link>
-            </li>
-            <li>
-              <Link href="my-borrows">My Borrows</Link>
-            </li>
+              <li>
+                <Link href="/">Home</Link>
+              </li>
+              <li>
+                <Link href="all-books">All Books</Link>
+              </li>
+              <li>
+                <Link href="/add-book">Add Book</Link>
+              </li>
+              <li>
+                <Link href="my-books">My Books</Link>
+              </li>
+              <li>
+                <Link href="my-borrows">My Borrows</Link>
+              </li>
             </ul>
           </div>
           <div className="flex items-center justify-center gap-2 btn btn-ghos">
-              <IoBookOutline className="rounded" size={20}></IoBookOutline>
+            <IoBookOutline className="rounded" size={20}></IoBookOutline>
             <a className=" text-xl">BookNook</a>
           </div>
         </div>
