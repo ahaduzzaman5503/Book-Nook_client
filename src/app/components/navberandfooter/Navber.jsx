@@ -77,17 +77,29 @@ const Navber = () => {
                 <Link href="/">Home</Link>
               </li>
               <li>
-                <Link href="all-books">All Books</Link>
+                <Link href="all_books">All Books</Link>
               </li>
-              <li>
-                <Link href="/add-book">Add Book</Link>
-              </li>
-              <li>
-                <Link href="my-books">My Books</Link>
-              </li>
-              <li>
-                <Link href="my-borrows">My Borrows</Link>
-              </li>
+              {user ? (
+                <li>
+                  <Link href="/add_book">Add Book</Link>
+                </li>
+              ) : (
+                ""
+              )}
+              {user ? (
+                <li>
+                  <Link href="my_books">My Books</Link>
+                </li>
+              ) : (
+                ""
+              )}
+              {user ? (
+                <li>
+                  <Link href="my_borrows">My Borrows</Link>
+                </li>
+              ) : (
+                ""
+              )}
             </ul>
           </div>
           <div className="flex items-center justify-center gap-2 btn btn-ghos">
@@ -104,17 +116,29 @@ const Navber = () => {
               <Link href="/">Home</Link>
             </li>
             <li>
-              <Link href="all-books">All Books</Link>
+              <Link href="all_books">All Books</Link>
             </li>
-            <li>
-              <Link href="/add-book">Add Book</Link>
-            </li>
-            <li>
-              <Link href="my-books">My Books</Link>
-            </li>
-            <li>
-              <Link href="my-borrows">My Borrows</Link>
-            </li>
+            {user ? (
+              <li>
+                <Link href="/add_book">Add Book</Link>
+              </li>
+            ) : (
+              ""
+            )}
+            {user ? (
+              <li>
+                <Link href="my_books">My Books</Link>
+              </li>
+            ) : (
+              ""
+            )}
+            {user ? (
+              <li>
+                <Link href="my_borrows">My Borrows</Link>
+              </li>
+            ) : (
+              ""
+            )}
           </ul>
         </div>
 
@@ -143,13 +167,13 @@ const Navber = () => {
               </div>
               <ul
                 tabIndex={-1}
-                className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-40 p-2 shadow"
+                className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-40 p-2 shadow gap-3"
               >
                 <li>
                   <a className="justify-between">UserName</a>
                 </li>
                 <li>
-                  <a>My Profile</a>
+                  <Link href="/profile">My Profile</Link>
                 </li>
                 <li>
                   <button
