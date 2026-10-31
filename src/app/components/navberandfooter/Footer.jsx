@@ -89,7 +89,7 @@ const Footer = () => {
 
       <div className="border-t border-[#e2d7c5] px-4 py-5 text-center">
         <p className="text-sm text-[#76695e]">
-          © {new Date().getFullYear()} BookNook. All rights reserved.
+          © 2026 BookNook. All rights reserved.
         </p>
       </div>
     </footer>

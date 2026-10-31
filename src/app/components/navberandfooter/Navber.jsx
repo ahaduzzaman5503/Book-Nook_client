@@ -1,15 +1,54 @@
+"use client";
+import { authClient } from "../../../lib/auth-client";
 import Image from "next/image";
 import Link from "next/link";
 import React from "react";
+import { toast, Toaster } from "react-hot-toast";
 import { FaMoon } from "react-icons/fa";
 import { IoBookOutline } from "react-icons/io5";
 import { MdOutlineWbSunny } from "react-icons/md";
+import { useRouter } from "next/navigation";
 
 const Navber = () => {
-  const user = true;
+  const router = useRouter();
+  const [isSigningOut, setIsSigningOut] = React.useState(false);
+
+  const handleSignOut = async () => {
+    const loadingToast = toast.loading("সাইন আউট হচ্ছে...");
+    setIsSigningOut(true);
+
+    try {
+      const { error } = await authClient.signOut();
+
+      if (error) {
+        toast.error("সাইন আউট ব্যর্থ হয়েছে", {
+          id: loadingToast,
+        });
+        setIsSigningOut(false);
+        return;
+      }
+
+      toast.success("সফলভাবে সাইন আউট হয়েছে!", {
+        id: loadingToast,
+        duration: 1500,
+      });
+
+      setTimeout(() => {
+        router.push("/login");
+      }, 1500);
+    } catch (error) {
+      toast.error("কিছু একটা সমস্যা হয়েছে। আবার চেষ্টা করুন।", {
+        id: loadingToast,
+      });
+      setIsSigningOut(false);
+    }
+  };
+
+  const { data: session } = authClient.useSession();
+  const user = session?.user;
   return (
     <>
-      <div className="navbar bg-base-100 shadow-sm">
+      <div className="navbar bg-base-100 shadow-sm container mx-auto">
         <div className="navbar-start">
           <div className="dropdown">
             <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
@@ -53,7 +92,9 @@ const Navber = () => {
           </div>
           <div className="flex items-center justify-center gap-2 btn btn-ghos">
             <IoBookOutline className="rounded" size={20}></IoBookOutline>
-            <a className=" text-xl">BookNook</a>
+            <Link href="/" className=" text-xl">
+              BookNook
+            </Link>
           </div>
         </div>
 
@@ -95,8 +136,8 @@ const Navber = () => {
                   <Image
                     width={500}
                     height={500}
-                    alt="Tailwind CSS Navbar component"
-                    src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp"
+                    alt={user.name || "User profile"}
+                    src={user.image || "/default-avatar.png"}
                   />
                 </div>
               </div>
@@ -111,18 +152,49 @@ const Navber = () => {
                   <a>My Profile</a>
                 </li>
                 <li>
-                  <a>Logout</a>
+                  <button
+                    onClick={handleSignOut}
+                    className="btn btn-active btn-secondary"
+                  >
+                    Logout
+                  </button>
                 </li>
               </ul>
             </div>
           ) : (
             <div className="flex gap-2">
-              <button className="btn btn-neutral">Login</button>
-              <button className="btn btn-primary">Register</button>
+              <Link href="/login">
+                <button className="btn btn-neutral">Login</button>
+              </Link>
+              <Link href="/register">
+                <button className="btn btn-primary">Register</button>
+              </Link>
             </div>
           )}
         </div>
       </div>
+      <Toaster
+        position="top-right"
+        reverseOrder={false}
+        toastOptions={{
+          duration: 2000,
+          style: {
+            fontSize: "14px",
+          },
+          success: {
+            style: {
+              background: "#e8f8ee",
+              color: "#079447",
+            },
+          },
+          error: {
+            style: {
+              background: "#fff0f0",
+              color: "#dc2626",
+            },
+          },
+        }}
+      />
     </>
   );
 };
