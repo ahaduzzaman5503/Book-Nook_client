@@ -1,4 +1,5 @@
 import Banner from "./components/homepage/Banner/BannerSlider";
+import HowBorrowingWorks from "./components/homepage/Banner/HowBorrowingWorks";
 import NewArrivals from "./components/homepage/Banner/NewArrivals";
 
 export default function Home() {
@@ -6,6 +7,7 @@ export default function Home() {
     <>
       <Banner></Banner>
       <NewArrivals></NewArrivals>
+      <HowBorrowingWorks />
     </>
   );
 }
