@@ -11,7 +11,7 @@ export default function Home() {
       <NewArrivals />
       <HowBorrowingWorks />
       <WhyChooseBookNook />
-      <ReaderReviews/>
+      <ReaderReviews />
     </>
   );
 }
