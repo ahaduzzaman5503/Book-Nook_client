@@ -77,7 +77,7 @@ const Navber = () => {
                 <Link href="/">Home</Link>
               </li>
               <li>
-                <Link href="all_books">All Books</Link>
+                <Link href="/books">All Books</Link>
               </li>
               {user ? (
                 <li>
@@ -116,7 +116,7 @@ const Navber = () => {
               <Link href="/">Home</Link>
             </li>
             <li>
-              <Link href="all_books">All Books</Link>
+              <Link href="/books">All Books</Link>
             </li>
             {user ? (
               <li>

@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 const AllBooks = async () => {
-  const res = await fetch("http://localhost:5000/all_books", {
+  const res = await fetch("http://localhost:5000/books", {
     cache: "no-store",
   });
 

@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 const NewArrivals = async () => {
-  const res = await fetch("http://localhost:5000/all_books", {
+  const res = await fetch("http://localhost:5000/books", {
     cache: "no-store",
   });
 
@@ -31,7 +31,7 @@ const NewArrivals = async () => {
           </div>
 
           <Link
-            href="/all_books"
+            href="/books"
             className="border border-green-800 text-green-800 px-6 py-3 rounded-lg font-semibold hover:bg-green-800 hover:text-white transition"
           >
             See All Books →
@@ -82,7 +82,7 @@ const NewArrivals = async () => {
 
         <div className="text-center mt-10">
           <Link
-            href="/all_books"
+            href="/books"
             className="inline-block bg-green-800 text-white px-8 py-3 rounded-lg font-semibold hover:bg-green-900 transition"
           >
             See All Books

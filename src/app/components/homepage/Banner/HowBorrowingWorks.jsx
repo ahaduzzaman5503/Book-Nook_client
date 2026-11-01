@@ -66,7 +66,7 @@ const HowBorrowingWorks = () => {
 
         <div className="text-center mt-10">
           <a
-            href="/all_books"
+            href="/books"
             className="inline-block bg-green-800 text-white px-8 py-3 rounded-lg font-semibold hover:bg-green-900 transition"
           >
             Explore Books

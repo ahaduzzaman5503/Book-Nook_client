@@ -84,7 +84,7 @@ const BannerSlider = () => {
                   </p>
 
                   <Link
-                    href="/all_books"
+                    href="/books"
                     className="mt-8 inline-flex items-center gap-2 rounded-lg bg-[#e9b94f] px-7 py-3.5 font-semibold text-[#173d2a] transition duration-300 hover:bg-[#f3ca6b] hover:shadow-lg"
                   >
                     Browse Books
