@@ -1,12 +1,12 @@
-"use client"
+"use client";
 import { authClient } from "../../../lib/auth-client";
 import Image from "next/image";
 import React from "react";
 
 const page = () => {
-      const { data: session } = authClient.useSession();
-      const user = session?.user;
-      console.log(user);
+  const { data: session } = authClient.useSession();
+  const user = session?.user;
+  console.log(user);
   return (
     <div>
       <div className="card w-96 bg-base-300 card-xl shadow-sm container mx-auto mt-10 text-center">
