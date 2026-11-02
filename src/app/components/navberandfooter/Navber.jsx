@@ -88,14 +88,14 @@ const Navber = () => {
               )}
               {user ? (
                 <li>
-                  <Link href="my_books">My Books</Link>
+                  <Link href="/my_books">My Books</Link>
                 </li>
               ) : (
                 ""
               )}
               {user ? (
                 <li>
-                  <Link href="my_borrows">My Borrows</Link>
+                  <Link href="/my_borrows">My Borrows</Link>
                 </li>
               ) : (
                 ""
@@ -127,14 +127,14 @@ const Navber = () => {
             )}
             {user ? (
               <li>
-                <Link href="my_books">My Books</Link>
+                <Link href="/my_books">My Books</Link>
               </li>
             ) : (
               ""
             )}
             {user ? (
               <li>
-                <Link href="my_borrows">My Borrows</Link>
+                <Link href="/my_borrows">My Borrows</Link>
               </li>
             ) : (
               ""

@@ -1,8 +1,8 @@
+import Link from "next/link";
 import BookDetailsContent from "./BookDetailsContent";
 
 const BookDetailsPage = async ({ params }) => {
   const { id } = await params;
-
   let book = null;
 
   try {
@@ -28,12 +28,12 @@ const BookDetailsPage = async ({ params }) => {
           <p className="mt-2 text-gray-500">
             This book may have been removed or does not exist.
           </p>
-          <a
+          <Link
             href="/books"
             className="mt-6 inline-block rounded-xl bg-[#263b32] px-6 py-3 text-sm font-semibold text-white hover:bg-[#385744]"
           >
             Browse Books
-          </a>
+          </Link>
         </div>
       </main>
     );

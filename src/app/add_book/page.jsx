@@ -1,9 +1,13 @@
 "use client";
+
 import { useState } from "react";
-import { authClient } from "../../../lib/auth-client";
+import { useRouter } from "next/navigation";
+import { authClient } from "../../lib/auth-client";
 import { toast, Toaster } from "react-hot-toast";
 
 const AddBookPage = () => {
+  const router = useRouter();
+
   const { data: session, isPending } = authClient.useSession();
   const user = session?.user;
 
@@ -23,27 +27,26 @@ const AddBookPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     const form = e.currentTarget;
     setMessage({ type: "", text: "" });
 
+    if (loading) return;
+
     if (!user) {
-      setMessage({
-        type: "error",
-        text: "Please log in before adding a book.",
-      });
+      toast.error("Please log in before adding a book.");
       return;
     }
 
     if (!imageFile) {
-      setMessage({
-        type: "error",
-        text: "Please select a book image.",
-      });
+      toast.error("Please select a book image.");
       return;
     }
+
     setLoading(true);
 
     try {
+      // Step 1: Get ImgBB API key
       const apiKey = process.env.NEXT_PUBLIC_IMGBB_API_KEY;
 
       if (!apiKey) {
@@ -52,6 +55,7 @@ const AddBookPage = () => {
         );
       }
 
+      // Step 2: Upload image to ImgBB
       const imageData = new FormData();
       imageData.append("image", imageFile);
 
@@ -78,6 +82,7 @@ const AddBookPage = () => {
 
       console.log("Image uploaded successfully:", imageUrl);
 
+      // Step 3: Prepare book information
       const bookData = {
         title: form.elements.title.value.trim(),
         author: form.elements.author.value.trim(),
@@ -89,6 +94,7 @@ const AddBookPage = () => {
         email: user.email,
       };
 
+      // Step 4: Send book information to backend
       const response = await fetch("http://localhost:5000/books", {
         method: "POST",
         headers: {
@@ -103,21 +109,20 @@ const AddBookPage = () => {
         throw new Error(result.message || "Failed to add book.");
       }
 
-      // Step 5: Show success message
-      setMessage({
-        type: "success",
-        text: toast.success("Book added successfully to BookNook!"),
-      });
-
+      // Step 5: Reset form and show success toast
       form.reset();
       setImageFile(null);
+
+      toast.success("Book added successfully to BookNook!");
+
+      // Step 6: Redirect to My Books after 2 seconds
+      setTimeout(() => {
+        router.push("/my_books");
+      }, 2000);
     } catch (error) {
       console.error("Add Book Error:", error);
 
-      setMessage({
-        type: "error",
-        text: error.message || "Something went wrong.",
-      });
+      toast.error(error.message || "Something went wrong.");
     } finally {
       setLoading(false);
     }
@@ -157,6 +162,7 @@ const AddBookPage = () => {
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-5">
+          {/* Book Title */}
           <div>
             <label className="mb-2 block text-sm font-semibold text-gray-700">
               Book Title
@@ -170,6 +176,8 @@ const AddBookPage = () => {
               className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-2.5 text-sm outline-none transition focus:border-green-600 focus:bg-white"
             />
           </div>
+
+          {/* Author Name */}
           <div>
             <label className="mb-2 block text-sm font-semibold text-gray-700">
               Author Name
@@ -184,6 +192,7 @@ const AddBookPage = () => {
             />
           </div>
 
+          {/* Category and Total Copies */}
           <div className="grid gap-5 sm:grid-cols-2">
             <div>
               <label className="mb-2 block text-sm font-semibold text-gray-700">
@@ -216,12 +225,15 @@ const AddBookPage = () => {
                 type="number"
                 name="totalCopies"
                 min="1"
+                step="1"
                 placeholder="Enter number of copies"
                 required
                 className="w-full rounded-xl border border-gray-200 bg-gray-50 px-4 py-2.5 text-sm outline-none focus:border-green-600"
               />
             </div>
           </div>
+
+          {/* Book Cover Image */}
           <div>
             <label className="mb-2 block text-sm font-semibold text-gray-700">
               Book Cover Image
@@ -241,6 +253,8 @@ const AddBookPage = () => {
               </p>
             )}
           </div>
+
+          {/* Book Description */}
           <div>
             <label className="mb-2 block text-sm font-semibold text-gray-700">
               Book Description
@@ -255,6 +269,7 @@ const AddBookPage = () => {
             />
           </div>
 
+          {/* Added By Information */}
           <div className="grid gap-5 sm:grid-cols-2">
             <div>
               <label className="mb-2 block text-sm font-semibold text-gray-700">
@@ -283,6 +298,7 @@ const AddBookPage = () => {
             </div>
           </div>
 
+          {/* Error Message */}
           {message.text && (
             <div
               role="status"
@@ -296,6 +312,7 @@ const AddBookPage = () => {
             </div>
           )}
 
+          {/* Submit Button */}
           <button
             type="submit"
             disabled={loading}
@@ -305,6 +322,8 @@ const AddBookPage = () => {
           </button>
         </form>
       </div>
+
+      {/* Toast Notifications */}
       <Toaster
         position="top-right"
         reverseOrder={false}
