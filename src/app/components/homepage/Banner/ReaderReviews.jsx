@@ -1,9 +1,9 @@
 import Image from "next/image";
 
 const ReaderReviews = async () => {
-  const res = await fetch("http://localhost:5000/reviewsdata", {
-    cache: "no-store",
-  });
+const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/reviewsdata`, {
+  cache: "no-store",
+});
 
   if (!res.ok) {
     throw new Error("Failed to fetch reader reviews");
@@ -44,7 +44,7 @@ const ReaderReviews = async () => {
                 </div>
 
                 <p className="text-gray-600 leading-relaxed mb-8">
-                  "{review.review}"
+                  {review.review}
                 </p>
 
                 <div className="flex items-center gap-4">

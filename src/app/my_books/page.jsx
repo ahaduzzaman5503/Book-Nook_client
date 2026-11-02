@@ -1,11 +1,8 @@
 "use client";
-
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { authClient } from "../../lib/auth-client";
 import { toast, Toaster } from "react-hot-toast";
-
-const API_URL = "http://localhost:5000";
 
 const MyBooksPage = () => {
   const { data: session, isPending } = authClient.useSession();
@@ -43,8 +40,8 @@ const MyBooksPage = () => {
 
       try {
         const response = await fetch(
-          `${API_URL}/my-books?email=${encodeURIComponent(user.email)}`,
-          { cache: "no-store" },
+          `${process.env.NEXT_PUBLIC_API_URL}/my-books?email=${encodeURIComponent(user.email)}`,
+          { cache: "no-store" }
         );
 
         if (!response.ok) {
@@ -106,16 +103,19 @@ const MyBooksPage = () => {
     setSaving(true);
 
     try {
-      const response = await fetch(`${API_URL}/books/${selectedBook._id}`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          ...editForm,
-          totalCopies: Number(editForm.totalCopies),
-        }),
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/books/${selectedBook._id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            ...editForm,
+            totalCopies: Number(editForm.totalCopies),
+          }),
+        }
+      );
 
       const result = await response.json();
 
@@ -130,10 +130,11 @@ const MyBooksPage = () => {
                 ...book,
                 ...editForm,
                 totalCopies: Number(editForm.totalCopies),
-                availableCopies: result.availableCopies ?? book.availableCopies,
+                availableCopies:
+                  result.availableCopies ?? book.availableCopies,
               }
-            : book,
-        ),
+            : book
+        )
       );
 
       setSelectedBook(null);
@@ -151,9 +152,12 @@ const MyBooksPage = () => {
     if (!deleteBook) return;
 
     try {
-      const response = await fetch(`${API_URL}/books/${deleteBook._id}`, {
-        method: "DELETE",
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/books/${deleteBook._id}`,
+        {
+          method: "DELETE",
+        }
+      );
 
       const result = await response.json();
 
@@ -162,7 +166,9 @@ const MyBooksPage = () => {
       }
 
       setBooks((previous) =>
-        previous.filter((book) => String(book._id) !== String(deleteBook._id)),
+        previous.filter(
+          (book) => String(book._id) !== String(deleteBook._id)
+        )
       );
 
       setDeleteBook(null);
@@ -190,7 +196,9 @@ const MyBooksPage = () => {
     return (
       <div className="flex min-h-screen items-center justify-center bg-[#f8f7f3] px-4">
         <div className="rounded-2xl bg-white p-8 text-center shadow-md">
-          <h2 className="text-xl font-bold text-[#263b32]">Please log in</h2>
+          <h2 className="text-xl font-bold text-[#263b32]">
+            Please log in
+          </h2>
           <p className="mt-2 text-gray-500">
             Log in to manage the books you have added.
           </p>
@@ -207,7 +215,10 @@ const MyBooksPage = () => {
 
   return (
     <section className="min-h-screen bg-[#f8f7f3] px-4 py-10 sm:px-6">
-      <Toaster position="top-right" toastOptions={{ duration: 2500 }} />
+      <Toaster
+        position="top-right"
+        toastOptions={{ duration: 2500 }}
+      />
 
       <div className="mx-auto max-w-7xl">
         {/* Heading */}
@@ -217,7 +228,9 @@ const MyBooksPage = () => {
               BOOKNOOK LIBRARY
             </span>
 
-            <h1 className="mt-4 text-3xl font-bold text-[#263b32]">My Books</h1>
+            <h1 className="mt-4 text-3xl font-bold text-[#263b32]">
+              My Books
+            </h1>
 
             <p className="mt-2 text-sm text-gray-500">
               Manage the books you have added to BookNook.
@@ -342,7 +355,9 @@ const MyBooksPage = () => {
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4 py-6">
           <div className="max-h-[90vh] w-full max-w-xl overflow-y-auto rounded-2xl bg-white p-6 shadow-xl">
             <div className="mb-5 flex items-center justify-between">
-              <h2 className="text-xl font-bold text-[#263b32]">Edit Book</h2>
+              <h2 className="text-xl font-bold text-[#263b32]">
+                Edit Book
+              </h2>
 
               <button
                 onClick={() => setSelectedBook(null)}
@@ -506,3 +521,4 @@ const MyBooksPage = () => {
 };
 
 export default MyBooksPage;
+

@@ -1,6 +1,4 @@
-/** @type {import('next').NextConfig} */
 const nextConfig = {
-  /* config options here */
   experimental: {
     agentFeedback: true,
   },
@@ -8,23 +6,23 @@ const nextConfig = {
   partialPrefetching: true,
   reactCompiler: true,
 
-    images: {
+  images: {
     remotePatterns: [
       {
         protocol: "https",
         hostname: "lh3.googleusercontent.com",
       },
-            {
+      {
         protocol: "https",
         hostname: "**",
       },
-            {
+      {
         protocol: "https",
         hostname: "images.unsplash.com",
       },
     ],
   },
-  
+
   turbopack: {
     rules: {
       "*.css": {

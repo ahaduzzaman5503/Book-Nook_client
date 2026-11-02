@@ -6,7 +6,6 @@ import { authClient } from "../../lib/auth-client";
 import { toast, Toaster } from "react-hot-toast";
 import Link from "next/link";
 
-const API_URL = "http://localhost:5000";
 
 export default function MyBorrowsPage() {
   const { data: session, isPending } = authClient.useSession();
@@ -33,8 +32,7 @@ export default function MyBorrowsPage() {
       try {
         setLoading(true);
 
-        const response = await fetch(
-          `${API_URL}/borrows?email=${encodeURIComponent(user.email)}`,
+        const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/borrows?email=${encodeURIComponent(user.email)}`,
           { cache: "no-store" },
         );
 
@@ -81,7 +79,7 @@ export default function MyBorrowsPage() {
     try {
       setReturningId(borrowId);
 
-      const response = await fetch(`${API_URL}/borrows/${borrowId}`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/borrows/${borrowId}`, {
         method: "DELETE",
       });
 

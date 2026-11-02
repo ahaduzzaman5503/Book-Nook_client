@@ -2,13 +2,14 @@ import Image from "next/image";
 import Link from "next/link";
 
 const NewArrivals = async () => {
-  const res = await fetch("http://localhost:5000/books", {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/books`, {
     cache: "no-store",
   });
 
   if (!res.ok) {
     throw new Error("Failed to fetch new arrivals");
   }
+
   const books = await res.json();
   const latestBooks = books.slice(0, 6);
 
@@ -66,7 +67,9 @@ const NewArrivals = async () => {
                     {book.title}
                   </h3>
 
-                  <p className="text-gray-600 mb-5">By {book.author}</p>
+                  <p className="text-gray-600 mb-5">
+                    By {book.author}
+                  </p>
 
                   <Link
                     href={`/books/${book._id}`}

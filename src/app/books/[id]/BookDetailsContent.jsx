@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useState } from "react";
@@ -5,8 +6,6 @@ import Link from "next/link";
 import Image from "next/image";
 import { authClient } from "../../../lib/auth-client";
 import { toast, Toaster } from "react-hot-toast";
-
-const API_URL = "http://localhost:5000";
 
 const BookDetailsContent = ({ book }) => {
   const { data: session, isPending } = authClient.useSession();
@@ -19,7 +18,7 @@ const BookDetailsContent = ({ book }) => {
   const [borrowedOnce, setBorrowedOnce] = useState(false);
 
   const [availableCopies, setAvailableCopies] = useState(
-    Number(book.availableCopies ?? 0),
+    Number(book.availableCopies ?? 0)
   );
 
   useEffect(() => {
@@ -37,8 +36,8 @@ const BookDetailsContent = ({ book }) => {
 
       try {
         const response = await fetch(
-          `${API_URL}/borrows?email=${encodeURIComponent(user.email)}`,
-          { cache: "no-store" },
+          `${process.env.NEXT_PUBLIC_API_URL}/borrows?email=${encodeURIComponent(user.email)}`,
+          { cache: "no-store" }
         );
 
         if (!response.ok) {
@@ -49,7 +48,7 @@ const BookDetailsContent = ({ book }) => {
 
         if (!ignore) {
           const found = borrows.some(
-            (borrow) => String(borrow.bookId) === String(book._id),
+            (borrow) => String(borrow.bookId) === String(book._id)
           );
 
           setAlreadyBorrowed(found);
@@ -81,9 +80,11 @@ const BookDetailsContent = ({ book }) => {
       return;
     }
 
+    // First click opens the confirmation modal.
     setShowModal(true);
   };
 
+  // Handle confirmation modal submission.
   const handleBorrow = async (e) => {
     e.preventDefault();
 
@@ -108,7 +109,7 @@ const BookDetailsContent = ({ book }) => {
     setBorrowing(true);
 
     try {
-      const response = await fetch(`${API_URL}/borrows`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/borrows`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -135,11 +136,19 @@ const BookDetailsContent = ({ book }) => {
         throw new Error(result.message || "Failed to borrow this book.");
       }
 
+      // Update available copies after successful borrowing.
       setAvailableCopies((previous) => Math.max(0, previous - 1));
+
+      // Remember the successful borrow during this page visit.
+      // Do not set alreadyBorrowed to true here.
       setBorrowedOnce(true);
+
+      // Close confirmation modal.
       setShowModal(false);
 
+      // Show success toast.
       toast.success("Book borrowed successfully!");
+
     } catch (error) {
       console.error("Borrow Book Error:", error);
       toast.error(error.message || "Something went wrong.");
@@ -273,9 +282,11 @@ const BookDetailsContent = ({ book }) => {
               >
                 {checkingBorrow
                   ? "Checking..."
-                  : availableCopies < 1 && !borrowedOnce && !alreadyBorrowed
-                    ? "Currently Unavailable"
-                    : "Borrow This Book"}
+                  : availableCopies < 1 &&
+                    !borrowedOnce &&
+                    !alreadyBorrowed
+                  ? "Currently Unavailable"
+                  : "Borrow This Book"}
               </button>
 
               {alreadyBorrowed && (
@@ -305,6 +316,7 @@ const BookDetailsContent = ({ book }) => {
         </div>
       </div>
 
+      {/* Borrow Confirmation Modal */}
       {showModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4 py-6">
           <div className="w-full max-w-md rounded-2xl bg-white p-6 shadow-xl sm:p-8">
@@ -381,3 +393,4 @@ const BookDetailsContent = ({ book }) => {
 };
 
 export default BookDetailsContent;
+
